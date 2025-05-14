@@ -1,14 +1,17 @@
 import { Component } from "react";
-import { IMovie } from "../app/app";
 import "./items.css";
+import { IMovie } from "../app/app";
 
 interface MovieItemsState {
   favourt: boolean;
   like: boolean;
 }
+interface TMovieItems extends IMovie {
+  onDelete: (id: string) => void;
+}
 
-class MovieItems extends Component<IMovie, MovieItemsState> {
-  constructor(props: IMovie) {
+class MovieItems extends Component<TMovieItems, MovieItemsState> {
+  constructor(props: TMovieItems) {
     super(props);
     this.state = {
       favourt: false,
@@ -28,7 +31,7 @@ class MovieItems extends Component<IMovie, MovieItemsState> {
   };
 
   render() {
-    const { name, view } = this.props;
+    const { name, view, id, onDelete } = this.props;
     const { favourt, like } = this.state;
     return (
       <li
@@ -51,7 +54,11 @@ class MovieItems extends Component<IMovie, MovieItemsState> {
           >
             <i className="fas fa-cookie"></i>
           </button>
-          <button type="button" className="btn-trash btn-sm">
+          <button
+            type="button"
+            className="btn-trash btn-sm"
+            onClick={() => onDelete(id)}
+          >
             <i className="fas fa-trash"></i>
           </button>
           <i className="fas fa-star"></i>

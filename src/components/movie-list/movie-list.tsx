@@ -1,11 +1,18 @@
 import { IMovie } from "../app/app";
 import MovieItems from "../movie-list-items/items";
 import "./movie-list.css";
-export default function MovieList({ data }: { data: IMovie[] }) {
+export default function MovieList({
+  data,
+  onDelete,
+}: {
+  data: IMovie[];
+  onDelete: (id: string) => void;
+  onAddMovie: (name: string, veiw: string) => void;
+}) {
   return (
     <div className="movie-list d-flex flex-column gap-3">
       {data?.map((movie) => (
-        <MovieItems {...movie} key={movie.id} />
+        <MovieItems {...movie} key={movie.id} onDelete={onDelete} />
       ))}
     </div>
   );
