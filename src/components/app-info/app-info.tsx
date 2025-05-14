@@ -1,4 +1,5 @@
 import "./app-info.css";
+
 export default function AppInfo() {
   return (
     <div className="app-info">

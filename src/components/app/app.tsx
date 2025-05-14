@@ -7,7 +7,6 @@ import "./app.css";
 export interface IMovie {
   name: string;
   view: number;
-  favourt: boolean;
   id: number;
 }
 
