@@ -10,6 +10,7 @@ export interface IMovie {
   name: string;
   view: string;
   favourt: boolean;
+  like: boolean;
   id: string;
 }
 type TApp = {
@@ -25,18 +26,21 @@ class App extends Component<object, TApp> {
           name: "Avengers",
           view: "811",
           favourt: false,
+          like: false,
           id: "1",
         },
         {
           name: "Avatars",
           view: "999",
-          favourt: true,
+          favourt: false,
+          like: false,
           id: "2",
         },
         {
           name: "Lord of the rings",
           view: "998",
           favourt: false,
+          like: false,
           id: "3",
         },
       ],
@@ -49,15 +53,28 @@ class App extends Component<object, TApp> {
   };
   onAddMovie = (name: string, view: string) => {
     this.setState(({ data }) => ({
-      data: [...data, { name, view, favourt: false, id: uuidv4() }],
+      data: [
+        ...data,
+        { name, view, favourt: false, like: false, id: uuidv4() },
+      ],
+    }));
+  };
+  onToggleProp = (id: string, prop: string) => {
+    this.setState(({ data }) => ({
+      data: data?.map((movie) =>
+        movie.id === id
+          ? { ...movie, [prop]: !movie[prop as keyof IMovie] }
+          : movie
+      ),
     }));
   };
   render() {
     const { data } = this.state;
+    const dataFavourt = data.filter((movie) => movie.favourt).length;
     return (
       <div className="app font-monospace">
         <div className="contents">
-          <AppInfo />
+          <AppInfo dataLingth={data.length} dataFavourt={dataFavourt} />
           <div className="search-panel">
             <SearchPanel />
             <AppFilter />
@@ -65,7 +82,7 @@ class App extends Component<object, TApp> {
           <MovieList
             data={data}
             onDelete={this.onDelete}
-            onAddMovie={this.onAddMovie}
+            onToggleProp={this.onToggleProp}
           />
           <MoviesAdd onAddMovie={this.onAddMovie} />
         </div>
